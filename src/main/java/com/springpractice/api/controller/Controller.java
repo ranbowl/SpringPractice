@@ -1,5 +1,6 @@
 package com.springpractice.api.controller;
 
+import com.springpractice.api.config.ServiceConfig;
 import com.springpractice.api.service.QueueService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
