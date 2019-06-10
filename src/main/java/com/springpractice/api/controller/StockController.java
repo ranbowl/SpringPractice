@@ -1,5 +1,6 @@
 package com.springpractice.api.controller;
 
+import com.springpractice.api.service.QueueService;
 import com.springpractice.api.service.stock.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/stock")
 public class StockController {
 
+    private QueueService queueService;
+
     @Autowired
-    private StockService stockService;
+    public StockController(QueueService queueService) {
+        this.queueService = queueService;
+    }
 
     @PostMapping("/{symbol}")
     public ResponseEntity<String> handleHistoryStockData(@PathVariable String symbol) {
-        stockService.handleStockRequest(symbol);
+        queueService.pushTest(symbol);
         return ResponseEntity.ok("Received stock -> " + symbol);
     }
 }

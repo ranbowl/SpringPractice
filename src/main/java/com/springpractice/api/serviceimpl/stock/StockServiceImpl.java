@@ -7,14 +7,10 @@ import com.springpractice.api.service.stock.StockService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import sun.jvm.hotspot.runtime.ObjectMonitor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,16 +21,20 @@ import java.util.List;
 @Service
 public class StockServiceImpl implements StockService {
 
-    public static final String DATE_PATTERN = "yyyy-MM-dd";
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
 
-    public static final String STOCK_URL = "https://api.worldtradingdata.com/api/v1/history";
+    private static final String STOCK_URL = "https://api.worldtradingdata.com/api/v1/history";
 
-    @Autowired
-    ServiceConfig serviceConfig;
+    private ServiceConfig serviceConfig;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public static final Logger logger = LogManager.getLogger(StockServiceImpl.class);
+    @Autowired
+    public StockServiceImpl(ServiceConfig serviceConfig) {
+        this.serviceConfig = serviceConfig;
+    }
+
+    private static final Logger logger = LogManager.getLogger(StockServiceImpl.class);
 
     @Override
     public void handleStockRequest(String symbol) {
@@ -54,6 +54,9 @@ public class StockServiceImpl implements StockService {
             ResponseEntity<StockResponse> responseResponseEntity = restTemplate.getForEntity(url, StockResponse.class);
             if (responseResponseEntity.getStatusCode().is2xxSuccessful()) {
                 logger.info("Received stock history of symbol -> {}, total number -> {}", symbol, responseResponseEntity.getBody().getHistory().getHisotryPrices().size());
+//                for (int i = 0; i < 10; ++i) {
+//                    System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseResponseEntity.getBody().getHistory().getHisotryPrices().get(i)));
+//                }
             }
         } catch (Exception ex) {
             logger.error(ex.getMessage());

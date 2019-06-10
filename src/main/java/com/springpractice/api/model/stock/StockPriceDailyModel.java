@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StockPriceDailyModel {
 
+    private String date;
+
     private String open;
 
     private String close;
