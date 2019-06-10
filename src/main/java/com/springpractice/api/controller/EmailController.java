@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/email")
 public class EmailController {
 
     @Autowired
@@ -18,7 +20,7 @@ public class EmailController {
 
     private static final Logger logger = LogManager.getLogger(EmailController.class);
 
-    @PostMapping("/email")
+    @PostMapping("/")
     public ResponseEntity<String> sendEmail(@RequestBody EmailRequest emailRequest) {
         logger.info("Sending email -> {} to -> {}", emailRequest.getSubject(), emailRequest.getTo());
         emailService.sendSimpleEmail(emailRequest.getTo(), emailRequest.getSubject(), emailRequest.getContext());

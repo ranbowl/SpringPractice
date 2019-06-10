@@ -22,4 +22,6 @@ public class ServiceConfig {
     private String clientPassword;
 
     private String clientRole;
+
+    private String stockToken;
 }
